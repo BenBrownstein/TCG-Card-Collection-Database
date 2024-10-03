@@ -44,7 +44,9 @@ CREATE TABLE magic_cards (
     power INT,
     toughness INT,
     artist VARCHAR(100),
-    image_url VARCHAR(255)
+    image_url VARCHAR(255),
+    card_id INT,
+	FOREIGN KEY (card_id) REFERENCES cards(card_id) ON DELETE CASCADE
 );
 
 -- 3.5.1 Mana Cost Table
@@ -105,6 +107,9 @@ CREATE INDEX idx_card_id ON user_collection(card_id);
 CREATE INDEX idx_trade_status ON trades(status);
 
 -- Testing
+Insert into games (game_name) values ('Magic the Gathering');
+Insert into card_sets (set_name,release_date, total_cards) values ('Test Set', 2024, 20);
+Insert into cards (card_name) values ('Test Card 1');
 INSERT INTO magic_cards (card_type, rarity, power, toughness, artist, image_url)
 VALUES ('Creature', 'Rare', 4, 5, 'John Doe', 'image_url_1');
 INSERT INTO magic_card_mana_cost (color, quantity)
