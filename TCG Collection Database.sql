@@ -1,3 +1,8 @@
+-- Create a database for the Card Collection
+DROP DATABASE IF EXISTS card_collection;
+CREATE DATABASE card_collection;
+USE card_collection;
+
 -- 1. Users Table
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -31,16 +36,31 @@ Create table cards (
     FOREIGN KEY (set_id) REFERENCES card_sets(set_id) ON DELETE CASCADE
 );
 
--- 3. Cards Table
+-- 3.5 Magic Cards Table
 CREATE TABLE magic_cards (
     magic_card_id INT AUTO_INCREMENT PRIMARY KEY,
     card_type VARCHAR(50) NOT NULL,
     rarity VARCHAR(20) NOT NULL,
-    mana_cost VARCHAR(50),
     power INT,
     toughness INT,
     artist VARCHAR(100),
     image_url VARCHAR(255)
+);
+
+-- 3.5.1 Mana Cost Table
+Create table magic_card_mana_cost (
+	mana_cost_id INT AUTO_INCREMENT PRIMARY KEY,
+    color VARCHAR(20) NOT NULL,
+    quantity INT
+);
+
+-- 3.5.2 Junction Table
+CREATE TABLE magic_card_mana_cost_relation (
+    magic_card_id INT,
+    mana_cost_id INT,
+    PRIMARY KEY (magic_card_id, mana_cost_id),
+    FOREIGN KEY (magic_card_id) REFERENCES magic_cards(magic_card_id) ON DELETE CASCADE,
+    FOREIGN KEY (mana_cost_id) REFERENCES magic_card_mana_cost(mana_cost_id) ON DELETE CASCADE
 );
 
 -- 4. User Collection Table
@@ -83,3 +103,18 @@ CREATE TABLE trade_items (
 CREATE INDEX idx_user_id ON user_collection(user_id);
 CREATE INDEX idx_card_id ON user_collection(card_id);
 CREATE INDEX idx_trade_status ON trades(status);
+
+-- Testing
+INSERT INTO magic_cards (card_type, rarity, power, toughness, artist, image_url)
+VALUES ('Creature', 'Rare', 4, 5, 'John Doe', 'image_url_1');
+INSERT INTO magic_card_mana_cost (color, quantity)
+VALUES ('Red', 2), ('Blue', 1);
+INSERT INTO magic_card_mana_cost_relation (magic_card_id, mana_cost_id)
+VALUES (1, 1), -- Magic card 1 has Red mana cost
+       (1, 2); -- Magic card 1 also has Blue mana cost
+
+SELECT * FROM magic_cards 
+JOIN 
+    magic_card_mana_cost_relation ON magic_cards.magic_card_id = magic_card_mana_cost_relation.magic_card_id
+JOIN 
+    magic_card_mana_cost ON magic_card_mana_cost_relation.mana_cost_id = magic_card_mana_cost.mana_cost_id;
