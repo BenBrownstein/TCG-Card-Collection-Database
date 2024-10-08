@@ -187,6 +187,43 @@ insert into magic_card_mana_cost (color, quantity) values ('White', 2);
 insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (4, 5);
 insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (4, 6);
 insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (4, 2);
+Insert into cards (card_name, set_id) values ('Millstone', 1);
+INSERT INTO magic_cards (rarity, artist, image_url, isLegendary, card_id)
+VALUES ('Uncommon', 'Yeong-Hao Han', 'https://cards.scryfall.io/large/front/c/2/c2051fd0-99cf-4e11-a625-8294e6767e5b.jpg?1562304298', false, 5);
+insert into magic_card_card_type_relation (magic_card_id, card_type_id) Values (5, 3);
+insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (5, 5);
+Insert into cards (card_name, set_id) values ('Feral Invocation', 1);
+INSERT INTO magic_cards (rarity, artist, image_url, isLegendary, card_id)
+VALUES ('Common', 'Mathias Kollros', 'https://cards.scryfall.io/large/front/1/9/190ad379-1a0f-4598-b5b1-453955846597.jpg?1601082585', false, 6);
+Insert into magic_card_card_type (card_type) values ('Enchantment');
+insert into magic_card_card_type_relation (magic_card_id, card_type_id) Values (6, 5);
+insert into magic_card_mana_cost (color, quantity) values ('Green', 1);
+insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (6, 5);
+insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (6, 7);
+insert into magic_card_subtype (subtype) values ('Aura');
+insert into magic_card_subtype_relation (magic_card_id, subtype_id) values (6, 4);
+Insert into cards (card_name, set_id) values ('Spectral Shift', 1);
+INSERT INTO magic_cards (rarity, artist, image_url, isLegendary, card_id)
+VALUES ('Rare', 'John Avon', 'https://cards.scryfall.io/large/front/b/1/b1a3f75d-9a79-4c16-8f50-43a18add4579.jpg?1562879230', false, 7);
+Insert into magic_card_card_type (card_type) values ('Instant');
+insert into magic_card_card_type_relation (magic_card_id, card_type_id) Values (7, 6);
+insert into magic_card_mana_cost (color, quantity) values ('Generic', 1);
+insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (7, 2);
+insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (7, 8);
+Insert into cards (card_name, set_id) values ('Selesnya Guildmage', 1);
+INSERT INTO magic_cards (rarity, artist, image_url, isLegendary, card_id)
+VALUES ('Uncommon', 'Mark Zug', 'https://cards.scryfall.io/large/front/9/5/954b8e86-284a-4a6f-ac35-896afd414f8a.jpg?1706240171', false, 8);
+insert into magic_card_card_type_relation (magic_card_id, card_type_id) Values (8, 2);
+insert into magic_card_creature (power, toughness, magic_card_id) values (2, 2, 8);
+insert into magic_card_mana_cost (color, quantity) values ('Green/White', 2);
+insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (8, 9);
+insert into magic_card_subtype (subtype) values ('Elf');
+insert into magic_card_subtype (subtype) values ('Wizard');
+insert into magic_card_subtype_relation (magic_card_id, subtype_id) values (8, 5);
+insert into magic_card_subtype_relation (magic_card_id, subtype_id) values (8, 6);
+
+
+
 
 -- Land Table
 select c.card_name, mc.rarity, mc.artist, mc.image_url, mc.isLegendary, mcct.card_type
@@ -205,10 +242,20 @@ join magic_card_mana_cost mcmc on mcmc.mana_cost_id = mcmcr.mana_cost_id
 join magic_card_subtype_relation mcstr on mcstr.magic_card_id = mc.magic_card_id
 join magic_card_subtype mcst on mcst.subtype_id = mcstr.subtype_id; 
 
--- Sorcery Table
+-- Instant Sorcery Table
 select c.card_name, mc.rarity, mc.artist, mc.image_url, mc.isLegendary, mcct.card_type, mcmc.color, mcmc.quantity
 from cards c join magic_cards mc on c.card_id = mc.card_id
 join magic_card_card_type_relation mcctr on mcctr.magic_card_id = mc.magic_card_id
 join magic_card_card_type mcct on mcct.card_type_id = mcctr.card_type_id  
 join magic_card_mana_cost_relation mcmcr on mcmcr.magic_card_id = mc.magic_card_id
+join magic_card_mana_cost mcmc on mcmc.mana_cost_id = mcmcr.mana_cost_id;
+
+-- Enchantment with Subtype Table
+select c.card_name, mc.rarity, mc.artist, mc.image_url, mc.isLegendary, mcct.card_type, mcmc.color, mcmc.quantity, mcst.subtype
+from cards c join magic_cards mc on c.card_id = mc.card_id
+join magic_card_card_type_relation mcctr on mcctr.magic_card_id = mc.magic_card_id
+join magic_card_card_type mcct on mcct.card_type_id = mcctr.card_type_id  
+join magic_card_mana_cost_relation mcmcr on mcmcr.magic_card_id = mc.magic_card_id
 join magic_card_mana_cost mcmc on mcmc.mana_cost_id = mcmcr.mana_cost_id
+join magic_card_subtype_relation mcstr on mcstr.magic_card_id = mc.magic_card_id
+join magic_card_subtype mcst on mcst.subtype_id = mcstr.subtype_id; 
