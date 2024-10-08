@@ -166,14 +166,35 @@ insert into magic_card_subtype (subtype) values ('Human');
 insert into magic_card_subtype (subtype) values ('Advisor');
 insert into magic_card_subtype_relation (magic_card_id, subtype_id) values (2, 1);
 insert into magic_card_subtype_relation (magic_card_id, subtype_id) values (2, 2);
+Insert into cards (card_name, set_id) values ('Bosh, Iron Golem', 1);
+INSERT INTO magic_cards (rarity, artist, image_url, isLegendary, card_id)
+VALUES ('Rare', 'Brom', 'https://cards.scryfall.io/large/front/9/b/9bfe325c-8d3d-4543-9fcd-214525d4ab2a.jpg?1610664155', true, 3);
+Insert into magic_card_card_type (card_type) values ('Artifact');
+insert into magic_card_card_type_relation (magic_card_id, card_type_id) Values (3, 2);
+insert into magic_card_card_type_relation (magic_card_id, card_type_id) Values (3, 3);
+insert into magic_card_creature (power, toughness, magic_card_id) values (6 , 7, 3);
+insert into magic_card_mana_cost (color, quantity) values ('Generic', 8);
+insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (3, 4);
+insert into magic_card_subtype (subtype) values ('Golem');
+insert into magic_card_subtype_relation (magic_card_id, subtype_id) values (3, 3);
+Insert into cards (card_name, set_id) values ('Time Wipe', 1);
+INSERT INTO magic_cards (rarity, artist, image_url, isLegendary, card_id)
+VALUES ('Rare', 'Svetlin Velinov', 'https://cards.scryfall.io/large/front/2/1/2198907e-a13a-42e4-ad79-ac7efba4e610.jpg?1726285269', false, 4);
+Insert into magic_card_card_type (card_type) values ('Sorcery');
+insert into magic_card_card_type_relation (magic_card_id, card_type_id) Values (4, 4);
+insert into magic_card_mana_cost (color, quantity) values ('Generic', 2);
+insert into magic_card_mana_cost (color, quantity) values ('White', 2);
+insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (4, 5);
+insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (4, 6);
+insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (4, 2);
 
-
-
+-- Land Table
 select c.card_name, mc.rarity, mc.artist, mc.image_url, mc.isLegendary, mcct.card_type
 from cards c join magic_cards mc on c.card_id = mc.card_id
 join magic_card_card_type_relation mcctr on mcctr.magic_card_id = mc.magic_card_id
 join magic_card_card_type mcct on mcct.card_type_id = mcctr.card_type_id;
 
+-- Creature Table
 select c.card_name, mc.rarity, mc.artist, mc.image_url, mc.isLegendary, mcct.card_type, mcc.power, mcc.toughness, mcmc.color, mcmc.quantity, mcst.subtype
 from cards c join magic_cards mc on c.card_id = mc.card_id
 join magic_card_card_type_relation mcctr on mcctr.magic_card_id = mc.magic_card_id
@@ -183,3 +204,11 @@ join magic_card_mana_cost_relation mcmcr on mcmcr.magic_card_id = mc.magic_card_
 join magic_card_mana_cost mcmc on mcmc.mana_cost_id = mcmcr.mana_cost_id
 join magic_card_subtype_relation mcstr on mcstr.magic_card_id = mc.magic_card_id
 join magic_card_subtype mcst on mcst.subtype_id = mcstr.subtype_id; 
+
+-- Sorcery Table
+select c.card_name, mc.rarity, mc.artist, mc.image_url, mc.isLegendary, mcct.card_type, mcmc.color, mcmc.quantity
+from cards c join magic_cards mc on c.card_id = mc.card_id
+join magic_card_card_type_relation mcctr on mcctr.magic_card_id = mc.magic_card_id
+join magic_card_card_type mcct on mcct.card_type_id = mcctr.card_type_id  
+join magic_card_mana_cost_relation mcmcr on mcmcr.magic_card_id = mc.magic_card_id
+join magic_card_mana_cost mcmc on mcmc.mana_cost_id = mcmcr.mana_cost_id
