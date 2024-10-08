@@ -39,7 +39,6 @@ Create table cards (
 -- 3.1 Magic Cards Table
 CREATE TABLE magic_cards (
     magic_card_id INT AUTO_INCREMENT PRIMARY KEY,
-    card_type VARCHAR(50) NOT NULL,
     rarity VARCHAR(20) NOT NULL,
     artist VARCHAR(100),
     image_url VARCHAR(255),
@@ -55,7 +54,7 @@ Create table magic_card_mana_cost (
     quantity INT
 );
 
--- 3.1.2 Junction Table
+-- 3.1.2 Mana Cost Junction Table
 CREATE TABLE magic_card_mana_cost_relation (
     magic_card_id INT,
     mana_cost_id INT,
@@ -73,7 +72,35 @@ Create table magic_card_creature (
 	FOREIGN KEY (magic_card_id) REFERENCES magic_cards(magic_card_id) ON DELETE CASCADE
 
 );
+ -- 3.3.1 Subtype Table
+ create table magic_card_subtype (
+	subtype_id INT AUTO_INCREMENT PRIMARY KEY,
+    subtype varchar(100) not null
+ );
+ 
+ -- 3.3.2 Subtype Junction Table
+ CREATE TABLE magic_card_subtype_relation (
+    magic_card_id INT,
+    subtype_id INT,
+    PRIMARY KEY (magic_card_id, subtype_id),
+    FOREIGN KEY (magic_card_id) REFERENCES magic_cards(magic_card_id) ON DELETE CASCADE,
+    FOREIGN KEY (subtype_id) REFERENCES magic_card_subtype(subtype_id) ON DELETE CASCADE
+);
 
+ -- 3.4.1 Cardtype Table
+  create table magic_card_card_type (
+	card_type_id INT AUTO_INCREMENT PRIMARY KEY,
+    card_type varchar(100) not null
+ );
+ -- 3.4.2 Cardtype Junction Table
+  CREATE TABLE magic_card_card_type_relation (
+    magic_card_id INT,
+    card_type_id INT,
+    PRIMARY KEY (magic_card_id, card_type_id),
+    FOREIGN KEY (magic_card_id) REFERENCES magic_cards(magic_card_id) ON DELETE CASCADE,
+    FOREIGN KEY (card_type_id) REFERENCES magic_card_card_type(card_type_id) ON DELETE CASCADE
+);
+ 
 -- 4. User Collection Table
 CREATE TABLE user_collection (
     collection_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -117,19 +144,42 @@ CREATE INDEX idx_trade_status ON trades(status);
 
 -- Testing
 Insert into games (game_name) values ('Magic the Gathering');
-Insert into card_sets (set_name,release_date, total_cards) values ('Test Set', 2024, 20);
-Insert into cards (card_name) values ('Test Card 1');
-INSERT INTO magic_cards (card_type, rarity, artist, image_url, isLegendary)
-VALUES ('Creature', 'Rare', 'John Doe', 'image_url_1', false);
-INSERT INTO magic_card_mana_cost (color, quantity)
-VALUES ('Red', 2), ('Blue', 1);
-INSERT INTO magic_card_mana_cost_relation (magic_card_id, mana_cost_id)
-VALUES (1, 1), -- Magic card 1 has Red mana cost
-       (1, 2); -- Magic card 1 also has Blue mana cost
+Insert into card_sets (set_name,release_date, total_cards) values ('Test Set', 2024, 8);
+Insert into cards (card_name, set_id) values ('Plains', 1);
+INSERT INTO magic_cards (rarity, artist, image_url, isLegendary, card_id)
+VALUES ('Common', 'Marco Gorlei', 'https://cards.scryfall.io/large/front/1/b/1b499b37-efaf-4484-95e8-a70a9778c804.jpg?1726286908', false, 1);
+Insert into magic_card_card_type (card_type) values ('Land');
+insert into magic_card_card_type_relation (magic_card_id, card_type_id) Values (1, 1);
+Insert into cards (card_name, set_id) values ('Atris, Oracle of Half-Truths', 1);
+INSERT INTO magic_cards (rarity, artist, image_url, isLegendary, card_id)
+VALUES ('Rare', 'Bastien L. Deharme', 'https://cards.scryfall.io/large/front/d/b/db6c91ec-df14-460f-967c-f182562fe7d8.jpg?1581480984', true, 2);
+Insert into magic_card_card_type (card_type) values ('Creature');
+insert into magic_card_card_type_relation (magic_card_id, card_type_id) Values (2, 2);
+insert into magic_card_creature (power, toughness, magic_card_id) values (3 ,2, 2);
+insert into magic_card_mana_cost (color, quantity) values ('Generic', 2);
+insert into magic_card_mana_cost (color, quantity) values ('Blue', 1);
+insert into magic_card_mana_cost (color, quantity) values ('Black', 1);
+insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (2, 1);
+insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (2, 2);
+insert into magic_card_mana_cost_relation (magic_card_id, mana_cost_id) values (2, 3);
+insert into magic_card_subtype (subtype) values ('Human');
+insert into magic_card_subtype (subtype) values ('Advisor');
+insert into magic_card_subtype_relation (magic_card_id, subtype_id) values (2, 1);
+insert into magic_card_subtype_relation (magic_card_id, subtype_id) values (2, 2);
 
-SELECT * FROM magic_cards 
-JOIN 
-    magic_card_mana_cost_relation ON magic_cards.magic_card_id = magic_card_mana_cost_relation.magic_card_id
-JOIN 
-    magic_card_mana_cost ON magic_card_mana_cost_relation.mana_cost_id = magic_card_mana_cost.mana_cost_id
-Order by magic_card_mana_cost.color;
+
+
+select c.card_name, mc.rarity, mc.artist, mc.image_url, mc.isLegendary, mcct.card_type
+from cards c join magic_cards mc on c.card_id = mc.card_id
+join magic_card_card_type_relation mcctr on mcctr.magic_card_id = mc.magic_card_id
+join magic_card_card_type mcct on mcct.card_type_id = mcctr.card_type_id;
+
+select c.card_name, mc.rarity, mc.artist, mc.image_url, mc.isLegendary, mcct.card_type, mcc.power, mcc.toughness, mcmc.color, mcmc.quantity, mcst.subtype
+from cards c join magic_cards mc on c.card_id = mc.card_id
+join magic_card_card_type_relation mcctr on mcctr.magic_card_id = mc.magic_card_id
+join magic_card_card_type mcct on mcct.card_type_id = mcctr.card_type_id  
+join magic_card_creature mcc on mcc.magic_card_id = mc.magic_card_id
+join magic_card_mana_cost_relation mcmcr on mcmcr.magic_card_id = mc.magic_card_id
+join magic_card_mana_cost mcmc on mcmc.mana_cost_id = mcmcr.mana_cost_id
+join magic_card_subtype_relation mcstr on mcstr.magic_card_id = mc.magic_card_id
+join magic_card_subtype mcst on mcst.subtype_id = mcstr.subtype_id; 
