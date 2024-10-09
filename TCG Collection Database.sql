@@ -36,7 +36,7 @@ Create table cards (
     FOREIGN KEY (set_id) REFERENCES card_sets(set_id) ON DELETE CASCADE
 );
 
--- 3.1 Magic Cards Table
+-- 3.1 Magic Cards Table 
 CREATE TABLE magic_cards (
     magic_card_id INT AUTO_INCREMENT PRIMARY KEY,
     rarity VARCHAR(20) NOT NULL,
@@ -47,14 +47,14 @@ CREATE TABLE magic_cards (
 	FOREIGN KEY (card_id) REFERENCES cards(card_id) ON DELETE CASCADE
 );
 
--- 3.1.1 Mana Cost Table
+-- 3.1.1 Mana Cost Table (Make Plural)
 Create table magic_card_mana_cost (
 	mana_cost_id INT AUTO_INCREMENT PRIMARY KEY,
     color VARCHAR(50) NOT NULL,
     quantity INT
 );
 
--- 3.1.2 Mana Cost Junction Table
+-- 3.1.2 Mana Cost Junction Table (Make Plural)
 CREATE TABLE magic_card_mana_cost_relation (
     magic_card_id INT,
     mana_cost_id INT,
@@ -63,7 +63,7 @@ CREATE TABLE magic_card_mana_cost_relation (
     FOREIGN KEY (mana_cost_id) REFERENCES magic_card_mana_cost(mana_cost_id) ON DELETE CASCADE
 );
 
--- 3.2.1 Creature Stats Table
+-- 3.2.1 Creature Stats Table (Make Plural)
 Create table magic_card_creature (
 	creature_id INT AUTO_INCREMENT PRIMARY KEY,
     power INT,
@@ -72,13 +72,13 @@ Create table magic_card_creature (
 	FOREIGN KEY (magic_card_id) REFERENCES magic_cards(magic_card_id) ON DELETE CASCADE
 
 );
- -- 3.3.1 Subtype Table
+ -- 3.3.1 Subtype Table (Make Plural)
  create table magic_card_subtype (
 	subtype_id INT AUTO_INCREMENT PRIMARY KEY,
     subtype varchar(100) not null
  );
  
- -- 3.3.2 Subtype Junction Table
+ -- 3.3.2 Subtype Junction Table (Make Plural)
  CREATE TABLE magic_card_subtype_relation (
     magic_card_id INT,
     subtype_id INT,
@@ -87,12 +87,12 @@ Create table magic_card_creature (
     FOREIGN KEY (subtype_id) REFERENCES magic_card_subtype(subtype_id) ON DELETE CASCADE
 );
 
- -- 3.4.1 Cardtype Table
+ -- 3.4.1 Cardtype Table (Make Plural)
   create table magic_card_card_type (
 	card_type_id INT AUTO_INCREMENT PRIMARY KEY,
     card_type varchar(100) not null
  );
- -- 3.4.2 Cardtype Junction Table
+ -- 3.4.2 Cardtype Junction Table (Make Plural)
   CREATE TABLE magic_card_card_type_relation (
     magic_card_id INT,
     card_type_id INT,
@@ -229,7 +229,8 @@ insert into magic_card_subtype_relation (magic_card_id, subtype_id) values (8, 6
 select c.card_name, mc.rarity, mc.artist, mc.image_url, mc.isLegendary, mcct.card_type
 from cards c join magic_cards mc on c.card_id = mc.card_id
 join magic_card_card_type_relation mcctr on mcctr.magic_card_id = mc.magic_card_id
-join magic_card_card_type mcct on mcct.card_type_id = mcctr.card_type_id;
+join magic_card_card_type mcct on mcct.card_type_id = mcctr.card_type_id
+where mcct.card_type = 'Land';
 
 -- Creature Table
 select c.card_name, mc.rarity, mc.artist, mc.image_url, mc.isLegendary, mcct.card_type, mcc.power, mcc.toughness, mcmc.color, mcmc.quantity, mcst.subtype
@@ -240,15 +241,17 @@ join magic_card_creature mcc on mcc.magic_card_id = mc.magic_card_id
 join magic_card_mana_cost_relation mcmcr on mcmcr.magic_card_id = mc.magic_card_id
 join magic_card_mana_cost mcmc on mcmc.mana_cost_id = mcmcr.mana_cost_id
 join magic_card_subtype_relation mcstr on mcstr.magic_card_id = mc.magic_card_id
-join magic_card_subtype mcst on mcst.subtype_id = mcstr.subtype_id; 
+join magic_card_subtype mcst on mcst.subtype_id = mcstr.subtype_id
+where mcct.card_type = 'Creature'; 
 
--- Instant Sorcery Table
+-- Instant Sorcery Artifact Enchantment Table
 select c.card_name, mc.rarity, mc.artist, mc.image_url, mc.isLegendary, mcct.card_type, mcmc.color, mcmc.quantity
 from cards c join magic_cards mc on c.card_id = mc.card_id
 join magic_card_card_type_relation mcctr on mcctr.magic_card_id = mc.magic_card_id
 join magic_card_card_type mcct on mcct.card_type_id = mcctr.card_type_id  
 join magic_card_mana_cost_relation mcmcr on mcmcr.magic_card_id = mc.magic_card_id
-join magic_card_mana_cost mcmc on mcmc.mana_cost_id = mcmcr.mana_cost_id;
+join magic_card_mana_cost mcmc on mcmc.mana_cost_id = mcmcr.mana_cost_id
+where mcct.card_type = 'Instant' or mcct.card_type = 'Sorcery' or mcct.card_type = 'Artifact'  or mcct.card_type = 'Enchantment';
 
 -- Enchantment with Subtype Table
 select c.card_name, mc.rarity, mc.artist, mc.image_url, mc.isLegendary, mcct.card_type, mcmc.color, mcmc.quantity, mcst.subtype
@@ -258,4 +261,5 @@ join magic_card_card_type mcct on mcct.card_type_id = mcctr.card_type_id
 join magic_card_mana_cost_relation mcmcr on mcmcr.magic_card_id = mc.magic_card_id
 join magic_card_mana_cost mcmc on mcmc.mana_cost_id = mcmcr.mana_cost_id
 join magic_card_subtype_relation mcstr on mcstr.magic_card_id = mc.magic_card_id
-join magic_card_subtype mcst on mcst.subtype_id = mcstr.subtype_id; 
+join magic_card_subtype mcst on mcst.subtype_id = mcstr.subtype_id
+where mcct.card_type = 'Enchantment'; 
