@@ -92,6 +92,7 @@ CREATE TABLE magic_card_creatures (
 	magic_card_card_type_id INT AUTO_INCREMENT PRIMARY KEY,
     card_type VARCHAR(100) NOT NULL
  );
+ 
  -- 3.4.2 Cardtype Junction Table
   CREATE TABLE magic_cards_card_types_relations (
     magic_card_id INT,
@@ -99,6 +100,32 @@ CREATE TABLE magic_card_creatures (
     PRIMARY KEY (magic_card_id, magic_card_card_type_id),
     FOREIGN KEY (magic_card_id) REFERENCES magic_cards(magic_card_id) ON DELETE CASCADE,
     FOREIGN KEY (magic_card_card_type_id) REFERENCES magic_card_card_types(magic_card_card_type_id) ON DELETE CASCADE
+);
+
+-- 3.5.1 Card Flavor Text Table
+  CREATE TABLE magic_card_flavor_text (
+	magic_card_flavor_text_id INT AUTO_INCREMENT PRIMARY KEY,
+    text LONG,
+	magic_card_id INT,
+	FOREIGN KEY (magic_card_id) REFERENCES magic_cards(magic_card_id) ON DELETE CASCADE
+ );
+ 
+-- 3.6.1 Card Effect Text Table
+  CREATE TABLE magic_card_effect_text (
+	magic_card_effect_text_id INT AUTO_INCREMENT PRIMARY KEY,
+    text LONG,
+    tap BOOLEAN,
+	magic_card_id INT,
+	FOREIGN KEY (magic_card_id) REFERENCES magic_cards(magic_card_id) ON DELETE CASCADE
+ );
+
+-- 3.6.2 Card Effect Mana Cost Junction Table
+ CREATE TABLE mana_costs_card_effect_relations (
+    magic_card_effect_text_id INT,
+    magic_card_mana_costs_id INT,
+    PRIMARY KEY (magic_card_effect_text_id, magic_card_mana_costs_id),
+    FOREIGN KEY (magic_card_effect_text_id) REFERENCES magic_card_effect_text(magic_card_effect_text_id) ON DELETE CASCADE,
+    FOREIGN KEY (magic_card_mana_costs_id) REFERENCES magic_card_mana_costs(magic_card_mana_costs_id) ON DELETE CASCADE
 );
  
 -- 4. User Collection Table
