@@ -104,7 +104,7 @@ CREATE TABLE magic_card_creatures (
 -- 3.5.1 Card Flavor Text Table
   CREATE TABLE magic_card_flavor_text (
 	magic_card_flavor_text_id INT AUTO_INCREMENT PRIMARY KEY,
-    text LONG,
+    f_text LONG,
 	magic_card_id INT,
 	FOREIGN KEY (magic_card_id) REFERENCES magic_cards(magic_card_id) ON DELETE CASCADE
  );
@@ -255,7 +255,7 @@ INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('Menance',
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('When Atris, Oracle of Half-Truths enters the battlefield, target opponent looks at the top three cards of your library and separates them into a face-down pile and a face-up pile. Put one pile into your hand and the other into your graveyard.', False, 2);
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('Trample', False, 3);
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ("Sacrifice an artifact: Bosh, the Iron Golem deals damage equal to the sacrificed artifact's converted mana cost to target creature or player.", False, 3);
-INSERT INTO magic_card_flavor_text (text, magic_card_id) VALUES ('As Glissa searches for the truth about Memnarch, Bosh searches to unearth the secrets buried deep in his memory.', 3);
+INSERT INTO magic_card_flavor_text (f_text, magic_card_id) VALUES ('As Glissa searches for the truth about Memnarch, Bosh searches to unearth the secrets buried deep in his memory.', 3);
 INSERT INTO magic_card_mana_costs (color, quantity) VALUES ('Red', 1);
 INSERT INTO magic_card_mana_costs (color, quantity) VALUES ('Generic', 3);
 INSERT INTO mana_costs_card_effect_relations (magic_card_effect_text_id, magic_card_mana_costs_id) VALUES (4, 10);
@@ -268,21 +268,37 @@ INSERT INTO mana_costs_card_effect_relations (magic_card_effect_text_id, magic_c
 INSERT INTO magic_card_mana_costs (color, quantity) VALUES ('White', 1);
 INSERT INTO mana_costs_card_effect_relations (magic_card_effect_text_id, magic_card_mana_costs_id) VALUES (6, 12);
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('Target player mills two cards.', True, 5);
-INSERT INTO magic_card_flavor_text (text, magic_card_id) VALUES ("Minds, like mountains, are never so grand and mighty that they can't be reduced to dust.", 5);
+INSERT INTO magic_card_flavor_text (f_text, magic_card_id) VALUES ("Minds, like mountains, are never so grand and mighty that they can't be reduced to dust.", 5);
 INSERT INTO mana_costs_card_effect_relations (magic_card_effect_text_id, magic_card_mana_costs_id) VALUES (7, 1);
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ("Return a creature you control to its owner's hand, then destroy all creatures.", False, 4);
-INSERT INTO magic_card_flavor_text (text, magic_card_id) VALUES ('"To comprehend the full answer requires years of temporal study. In short, they were now never born in the first place."
+INSERT INTO magic_card_flavor_text (f_text, magic_card_id) VALUES ('"To comprehend the full answer requires years of temporal study. In short, they were now never born in the first place."
 —Tefer', 4);
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('Flash', False, 6);
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('Enchant Creature', False, 6);
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('Enchanted creature gets +2/+2.', False, 6);
-INSERT INTO magic_card_flavor_text (text, magic_card_id) VALUES ("Nylea's sacred lynx guards those who honor the Nessian Wood and hunts those who don't.", 6);
+INSERT INTO magic_card_flavor_text (f_text, magic_card_id) VALUES ("Nylea's sacred lynx guards those who honor the Nessian Wood and hunts those who don't.", 6);
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('Choose one', False, 7);
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('Change the text of target spell or permanent by replacing all instances of one basic land type with another. (This effect lasts indefinitely.)', False, 7);
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('Change the text of target spell or permanent by replacing all instances of one color word with another. (This effect lasts indefinitely.)', False, 7);
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('Entwine', False, 7);
 INSERT INTO mana_costs_card_effect_relations (magic_card_effect_text_id, magic_card_mana_costs_id) VALUES (15, 1);
 
+INSERT INTO card_sets (name,release_date, total_cards) VALUES ('Bloomburrow', 2024, 281);
+INSERT INTO cards (name, card_set_id) VALUES ('Mockingbird', 2);
+INSERT INTO magic_cards (rarity, artist, image_url, card_id)
+VALUES ('Rare', 'Aurore Folny', 'https://cards.scryfall.io/large/front/a/d/ade32396-8841-4ba4-8852-d11146607f21.jpg?1722388218', 9);
+INSERT INTO magic_cards_card_types_relations (magic_card_id, magic_card_card_type_id) VALUES (9, 2);
+INSERT INTO magic_card_creatures (power, toughness, magic_card_id) VALUES (1, 1, 9);
+INSERT INTO magic_card_mana_costs (color, quantity) VALUES ('Variable', 1);
+INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (9, 13);
+INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (9, 2);
+INSERT INTO magic_card_subtypes (subtype) VALUES ('Bird');
+INSERT INTO magic_card_subtypes (subtype) VALUES ('Bard');
+INSERT INTO magic_cards_subtypes_relations (magic_card_id, magic_card_subtype_id) VALUES (9, 9);
+INSERT INTO magic_cards_subtypes_relations (magic_card_id, magic_card_subtype_id) VALUES (9, 10);
+INSERT INTO magic_card_flavor_text (f_text, magic_card_id) VALUES ('“Laughing at you? No, no, I’m laughing as you!”', 9);
+INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('Flying', False, 9);
+INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('You may have Mockingbird enter as a copy of any creature on the battlefield with mana value less than or equal to the amount of mana spent to cast Mockingbird, except it’s a Bird in addition to its other types and it has flying.', False, 9);
 
 
 SELECT * from magic_card_mana_costs;
