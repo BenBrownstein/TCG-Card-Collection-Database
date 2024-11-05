@@ -291,7 +291,7 @@ INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('Entwine',
 INSERT INTO mana_costs_card_effect_relations (magic_card_effect_text_id, magic_card_mana_costs_id) VALUES (15, 1);
 
 INSERT INTO card_sets (name,release_date, total_cards) VALUES ('Bloomburrow', 2024, 281);
-INSERT INTO cards (name, card_set_id) VALUES ('Mockingbird', 2);
+INSERT INTO cards (name, card_set_id) VALUES ('Mockingbird', 9);
 INSERT INTO magic_cards (rarity, artist, image_url, card_id)
 VALUES ('Rare', 'Aurore Folny', 'https://cards.scryfall.io/large/front/a/d/ade32396-8841-4ba4-8852-d11146607f21.jpg?1722388218', 9);
 INSERT INTO magic_cards_card_types_relations (magic_card_id, magic_card_card_type_id) VALUES (9, 2);
@@ -311,6 +311,7 @@ INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('You may h
 SELECT * from magic_card_mana_costs;
 Select * from magic_card_effect_text;
 Select * from cards;
+Select * from magic_card_card_types;
 -- Land Table
 SELECT c.name, mc.rarity, mc.artist, mc.image_url, mcct.card_type, mcst.subtype
 FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id

@@ -119,3 +119,5 @@
   ?>
 
 <a href="sets.php">Sets</a>
+<a href="card_info.php">Card Info</a>
+
