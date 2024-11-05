@@ -72,13 +72,12 @@
     $sql = "SELECT c.name, mc.rarity, mc.artist, mc.image_url, mcct.card_type
     FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id
     JOIN magic_cards_card_types_relations mcctr ON mcctr.magic_card_id = mc.magic_card_id
-    JOIN magic_card_card_types mcct ON mcct.magic_card_card_type_id = mcctr.magic_card_card_type_id 
-	where name LIKE '%$cards%'" ;    
+    JOIN magic_card_card_types mcct ON mcct.magic_card_card_type_id = mcctr.magic_card_card_type_id where name LIKE '%$cards%'" ;    
     $result = $conn->query($sql);
   if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "Name: " . $row["name"]. ", Card Type: ". $row["card_type"]. "<br>";
+        echo "Name: " . $row["name"]. "<br>". " Card Type: ". $row["card_type"]. "<br>". "Image: ". "<img src=". $row["image_url"]. "/>". "<br>";
     }
   } else {
 
@@ -109,7 +108,7 @@
   if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "Name: " . $row["name"]. ", Card Type: ". $row["card_type"].  ", Subtype: " . $row["subtype"]. "<br>";
+        echo "Name: " . $row["name"]. "<br>". " Card Type: ". $row["card_type"]. "<br>". "Subtype: " . $row["subtype"]. "<br>". "Image: ". "<img src=". $row["image_url"]. "/>". "<br>";
     }
   } else {
 
@@ -119,31 +118,4 @@
     }
   ?>
 
-<!-- <?php
-  //Search bar code with Effect and flavor text
-  if (isset($_GET['card']) && !empty($_GET['card']))
-  {
-    $cards = htmlspecialchars($_GET['card']);  
-    $sql = "SELECT c.name, mc.rarity, mc.artist, mc.image_url, mcct.card_type, mcft.f_text, mcet.text
-	-- mcet.tap, mcmc.color, mcmc.quantity
-    FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id
-    JOIN magic_cards_card_types_relations mcctr ON mcctr.magic_card_id = mc.magic_card_id
-    JOIN magic_card_card_types mcct ON mcct.magic_card_card_type_id = mcctr.magic_card_card_type_id 
-	JOIN magic_card_flavor_text mcft ON mcft.magic_card_id = mc.magic_card_id
-	JOIN magic_card_effect_text mcet ON mcet.magic_card_id = mc.magic_card_id
-	-- JOIN mana_costs_card_effect_relations macer ON macer.magic_card_effect_text_id = mcet.magic_card_effect_text_id
-	-- JOIN magic_card_mana_costs mcmc ON mcmc.magic_card_mana_costs_id = macer.magic_card_mana_costs_id
-	where name LIKE '%$cards%'" ;    
-    $result = $conn->query($sql);
-  if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        echo "Name: " . $row["name"]. "<br>". " Card Type: ". $row["card_type"]. "<br>". "Effect Text: ".$row["text"]. "<br>"."Flavor Text: ".$row["f_text"]. "<br>" ."<img src=". $row["image_url"]. "/>". "<br>";
-    }
-  } else {
-
-    echo "0 results";
-
-  }
-    }
-  ?> -->
+<a href="sets.php">Sets</a>
