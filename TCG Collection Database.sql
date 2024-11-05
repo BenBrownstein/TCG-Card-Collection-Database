@@ -169,13 +169,14 @@ CREATE INDEX idx_trade_status ON trades(status);
 
 -- Testing
 INSERT INTO games (name) VALUES ('Magic the Gathering');
-INSERT INTO card_sets (name,release_date, total_cards) VALUES ('Test Set', 2024, 8);
+INSERT INTO card_sets (name,release_date, total_cards) VALUES ('Duskmourn: House of Horror', 2024, 417);
 INSERT INTO cards (name, card_set_id) VALUES ('Plains', 1);
 INSERT INTO magic_cards (rarity, artist, image_url, card_id)
 VALUES ('Common', 'Marco Gorlei', 'https://cards.scryfall.io/large/front/1/b/1b499b37-efaf-4484-95e8-a70a9778c804.jpg?1726286908', 1);
 INSERT INTO magic_card_card_types (card_type) VALUES ('Land');
 INSERT INTO magic_cards_card_types_relations (magic_card_id, magic_card_card_type_id) VALUES (1, 1);
-INSERT INTO cards (name, card_set_id) VALUES ('Atris, Oracle of Half-Truths', 1);
+INSERT INTO card_sets (name,release_date, total_cards) VALUES ('Theros Beyond Death', 2020, 358);
+INSERT INTO cards (name, card_set_id) VALUES ('Atris, Oracle of Half-Truths', 2);
 INSERT INTO magic_cards (rarity, artist, image_url, card_id)
 VALUES ('Rare', 'Bastien L. Deharme', 'https://cards.scryfall.io/large/front/d/b/db6c91ec-df14-460f-967c-f182562fe7d8.jpg?1581480984', 2);
 INSERT INTO magic_card_card_types (card_type) VALUES ('Creature');
@@ -191,7 +192,8 @@ INSERT INTO magic_card_subtypes (subtype) VALUES ('Human');
 INSERT INTO magic_card_subtypes (subtype) VALUES ('Advisor');
 INSERT INTO magic_cards_subtypes_relations (magic_card_id, magic_card_subtype_id) VALUES (2, 1);
 INSERT INTO magic_cards_subtypes_relations (magic_card_id, magic_card_subtype_id) VALUES (2, 2);
-INSERT INTO cards (name, card_set_id) VALUES ('Bosh, Iron Golem', 1);
+INSERT INTO card_sets (name,release_date, total_cards) VALUES ('Mirrodin', 2003, 306);
+INSERT INTO cards (name, card_set_id) VALUES ('Bosh, Iron Golem', 3);
 INSERT INTO magic_cards (rarity, artist, image_url, card_id)
 VALUES ('Rare', 'Brom', 'https://cards.scryfall.io/large/front/9/b/9bfe325c-8d3d-4543-9fcd-214525d4ab2a.jpg?1610664155', 3);
 INSERT INTO magic_card_card_types (card_type) VALUES ('Artifact');
@@ -202,7 +204,8 @@ INSERT INTO magic_card_mana_costs (color, quantity) VALUES ('Generic', 8);
 INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (3, 4);
 INSERT INTO magic_card_subtypes (subtype) VALUES ('Golem');
 INSERT INTO magic_cards_subtypes_relations (magic_card_id, magic_card_subtype_id) VALUES (3, 3);
-INSERT INTO cards (name, card_set_id) VALUES ('Time Wipe', 1);
+INSERT INTO card_sets (name,release_date, total_cards) VALUES ('Duskmourn: House of Horror Commander', 2024, 373);
+INSERT INTO cards (name, card_set_id) VALUES ('Time Wipe', 4);
 INSERT INTO magic_cards (rarity, artist, image_url, card_id)
 VALUES ('Rare', 'Svetlin Velinov', 'https://cards.scryfall.io/large/front/2/1/2198907e-a13a-42e4-ad79-ac7efba4e610.jpg?1726285269', 4);
 INSERT INTO magic_card_card_types (card_type) VALUES ('Sorcery');
@@ -212,12 +215,14 @@ INSERT INTO magic_card_mana_costs (color, quantity) VALUES ('White', 2);
 INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (4, 5);
 INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (4, 6);
 INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (4, 2);
-INSERT INTO cards (name, card_set_id) VALUES ('Millstone', 1);
+INSERT INTO card_sets (name,release_date, total_cards) VALUES ('Core Set 2019', 2018, 314);
+INSERT INTO cards (name, card_set_id) VALUES ('Millstone', 5);
 INSERT INTO magic_cards (rarity, artist, image_url, card_id)
 VALUES ('Uncommon', 'Yeong-Hao Han', 'https://cards.scryfall.io/large/front/c/2/c2051fd0-99cf-4e11-a625-8294e6767e5b.jpg?1562304298', 5);
 INSERT INTO magic_cards_card_types_relations (magic_card_id, magic_card_card_type_id) VALUES (5, 3);
 INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (5, 5);
-INSERT INTO cards (name, card_set_id) VALUES ('Feral Invocation', 1);
+INSERT INTO card_sets (name,release_date, total_cards) VALUES ('Jumpstart', 2020, 497);
+INSERT INTO cards (name, card_set_id) VALUES ('Feral Invocation', 6);
 INSERT INTO magic_cards (rarity, artist, image_url, card_id)
 VALUES ('Common', 'Mathias Kollros', 'https://cards.scryfall.io/large/front/1/9/190ad379-1a0f-4598-b5b1-453955846597.jpg?1601082585', 6);
 INSERT INTO magic_card_card_types (card_type) VALUES ('Enchantment');
@@ -227,7 +232,8 @@ INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_cos
 INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (6, 7);
 INSERT INTO magic_card_subtypes (subtype) VALUES ('Aura');
 INSERT INTO magic_cards_subtypes_relations (magic_card_id, magic_card_subtype_id) VALUES (6, 4);
-INSERT INTO cards (name, card_set_id) VALUES ('Spectral Shift', 1);
+INSERT INTO card_sets (name,release_date, total_cards) VALUES ('Fifth Dawn', 2004, 165);
+INSERT INTO cards (name, card_set_id) VALUES ('Spectral Shift', 7);
 INSERT INTO magic_cards (rarity, artist, image_url, card_id)
 VALUES ('Rare', 'John Avon', 'https://cards.scryfall.io/large/front/b/1/b1a3f75d-9a79-4c16-8f50-43a18add4579.jpg?1562879230', 7);
 INSERT INTO magic_card_card_types (card_type) VALUES ('Instant');
@@ -235,7 +241,8 @@ INSERT INTO magic_cards_card_types_relations (magic_card_id, magic_card_card_typ
 INSERT INTO magic_card_mana_costs (color, quantity) VALUES ('Generic', 1);
 INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (7, 2);
 INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (7, 8);
-INSERT INTO cards (name, card_set_id) VALUES ('Selesnya Guildmage', 1);
+INSERT INTO card_sets (name,release_date, total_cards) VALUES ('Ravnica: Clue Edition', 2024, 284);
+INSERT INTO cards (name, card_set_id) VALUES ('Selesnya Guildmage', 8);
 INSERT INTO magic_cards (rarity, artist, image_url, card_id)
 VALUES ('Uncommon', 'Mark Zug', 'https://cards.scryfall.io/large/front/9/5/954b8e86-284a-4a6f-ac35-896afd414f8a.jpg?1706240171', 8);
 INSERT INTO magic_cards_card_types_relations (magic_card_id, magic_card_card_type_id) VALUES (8, 2);
