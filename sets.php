@@ -36,7 +36,20 @@
     
         while($row = $setresult->fetch_assoc()) {
     
-          echo "Name: " . $row["name"]. "<form method='post'> <input type='button' name='". $row["card_set_id"] ."' value='Display Cards in Set'/></form>" ."<br>";
+          echo "Name: " . $row["name"]. "<form method='post'> <input type='submit' name='". $row["card_set_id"] ."' value='Display Cards in Set'/></form>" ."<br>";
+          if(isset($_POST[$row["card_set_id"]])) {
+            $cards = "SELECT * FROM cards";
+            $result = $conn->query($cards);
+            $setid = $row["card_set_id"];
+            if ($result->num_rows > 0) {
+              // output data of each row
+              while($row = $result->fetch_assoc()) {
+                if ($row["card_set_id"] == $setid){
+                    echo "Name: " . $row["name"]. "<br>";
+                }
+              }      
+            }
+        }
         }
     
       } else {
@@ -45,45 +58,5 @@
     
       }
   ?>
-
-    <form method="post">
-        <input type="submit" name="set1"
-                value="Cards in Set 1"/>
-        <input type="submit" name="set2"
-                value="Cards in Set 2"/>       
-    </form>
-
-<?php
-    
-    if(isset($_POST['set1'])) {
-        $cards = "SELECT * FROM cards";
-        $result = $conn->query($cards);
-        if ($result->num_rows > 0) {
-          // output data of each row
-          while($row = $result->fetch_assoc()) {
-            if ($row["card_set_id"] == 1){
-                echo "Name: " . $row["name"]. "<br>";
-            }
-          }      
-        }
-    }
-?>
-
-<!-- Does not work for buttons created from fetch loop -->
-<?php
-    
-    if(isset($_POST['2'])) {
-        $cards = "SELECT * FROM cards";
-        $result = $conn->query($cards);
-        if ($result->num_rows > 0) {
-          // output data of each row
-          while($row = $result->fetch_assoc()) {
-            if ($row["card_set_id"] == 1){
-                echo "Name: " . $row["name"]. "<br>";
-            }
-          }      
-        }
-    }
-?>
 
 <a href="index.php">Home</a>

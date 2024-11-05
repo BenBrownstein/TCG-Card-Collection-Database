@@ -23,7 +23,9 @@
     die("Connection failed: " . $conn->connect_error);
 
   }
-  $card_id = 8;
+
+    $card_id = 3;
+
 
     $cards = "SELECT * FROM cards c 
     JOIN magic_cards mc ON c.card_id = mc.card_id WHERE c.card_id = $card_id";
@@ -95,46 +97,49 @@
         }
     }
 
-    $cards = "SELECT mcet.text, mcet.tap
+    $cards = "SELECT mcet.text, mcet.tap, mcet.magic_card_effect_text_id, mc.magic_card_id 
     FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id
-    JOIN magic_card_effect_text mcet ON mcet.magic_card_id = mc.magic_card_id WHERE c.card_id = $card_id";
-    $cardresult = $conn->query($cards);
-    if ($cardresult->num_rows > 0) {
+    JOIN magic_card_effect_text mcet ON mcet.magic_card_id = mc.magic_card_id 
+    WHERE c.card_id = $card_id";
+$cardresult = $conn->query($cards);
 
-        while($row = $cardresult->fetch_assoc()) {
-            if ($row["tap"] == 0)
-            {
-                $tap = 'False';
-            } else 
-            {
-                $tap = 'True';
-            }
-          echo "Effect Text: Tap:" .$tap. ". ".$row["text"]. "<br>";
-    
-        }
-    }
-
-    $cards = "SELECT mcet.text, mcet.tap, mcmc.color, mcmc.quantity
+$manaCards = "SELECT mcet.text, mcet.tap, mcmc.color, mcmc.quantity, macer.magic_card_effect_text_id, mc.magic_card_id 
     FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id
     JOIN magic_card_effect_text mcet ON mcet.magic_card_id = mc.magic_card_id 
     JOIN mana_costs_card_effect_relations macer ON macer.magic_card_effect_text_id = mcet.magic_card_effect_text_id
     JOIN magic_card_mana_costs mcmc ON mcmc.magic_card_mana_costs_id = macer.magic_card_mana_costs_id
     WHERE c.card_id = $card_id";
-    $cardresult = $conn->query($cards);
-    if ($cardresult->num_rows > 0) {
+$cardresultmana = $conn->query($manaCards);
 
-        while($row = $cardresult->fetch_assoc()) {
+// Fetch mana costs into an associative array grouped by `magic_card_effect_text_id`
+$manaData = [];
+while ($row2 = $cardresultmana->fetch_assoc()) {
+    $effectId = $row2['magic_card_effect_text_id'];
+    $manaData[$effectId][] = $row2; // Group by `magic_card_effect_text_id`
+}
+
+if ($cardresult->num_rows > 0) {
+    while ($row = $cardresult->fetch_assoc()) {
             if ($row["tap"] == 0)
             {
                 $tap = 'False';
-            } else 
-            {
+            } else {
                 $tap = 'True';
             }
-          echo "Effect Text: Tap:" .$tap. ". ". "Mana Color: " . $row["color"]. " ". "Mana Quantity: " . $row["quantity"]." ".$row["text"]. "<br>";
-    
+            $effectId = $row["magic_card_effect_text_id"];
+        
+        // Display colors and quantities for this effect ID
+        if (isset($manaData[$effectId])) {
+            foreach ($manaData[$effectId] as $manaRow) {
+                echo $manaRow["color"] . " " . $manaRow["quantity"] . " ";
+            }
         }
+        
+        // Display effect text and tap
+        echo "Effect Text: Tap:" . $tap . ". " . $row["text"] . "<br>";
     }
+}
+
 
     
     $cards = "SELECT mcft.f_text

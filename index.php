@@ -28,7 +28,7 @@
 
   }
 
-
+  
 
   $sql = "SELECT c.name, mc.rarity, mc.artist, mc.image_url, mcct.card_type
   FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id
@@ -38,7 +38,6 @@
 
   $result = $conn->query($sql);
 
-  
 
   if ($result->num_rows > 0) {
 
@@ -119,5 +118,6 @@
   ?>
 
 <a href="sets.php">Sets</a>
+
 <a href="card_info.php">Card Info</a>
 

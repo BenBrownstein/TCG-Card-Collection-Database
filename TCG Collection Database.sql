@@ -311,7 +311,8 @@ INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('You may h
 SELECT * from magic_card_mana_costs;
 Select * from magic_card_effect_text;
 Select * from cards;
-Select * from magic_card_card_types;
+Select * from magic_card_effect_text;
+select * from mana_costs_card_effect_relations;
 -- Land Table
 SELECT c.name, mc.rarity, mc.artist, mc.image_url, mcct.card_type, mcst.subtype
 FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id
