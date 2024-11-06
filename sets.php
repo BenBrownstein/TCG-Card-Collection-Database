@@ -25,7 +25,6 @@
   }
 
     $sets = "SELECT * from card_sets";
-    // JOIN cards c ON c.card_set_id = cs.card_set_id 
     
 
     $setresult = $conn->query($sets);   

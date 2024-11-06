@@ -3,7 +3,7 @@
 
 
 <?php
-
+  
   $servername = "localhost";
 
   $username   = "root";
@@ -28,7 +28,6 @@
 
   }
 
-  
 
   $sql = "SELECT c.name, mc.rarity, mc.artist, mc.image_url, mcct.card_type
   FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id
@@ -102,7 +101,7 @@
     JOIN magic_card_card_types mcct ON mcct.magic_card_card_type_id = mcctr.magic_card_card_type_id 
     JOIN magic_cards_subtypes_relations mcstr ON mcstr.magic_card_id = mc.magic_card_id
     JOIN magic_card_subtypes mcst ON mcst.magic_card_subtype_id = mcstr.magic_card_subtype_id
-    where subtype LIKE '%$subtypes%'" ;    
+    where subtype LIKE '%$subtypes%'";    
     $result = $conn->query($sql);
   if ($result->num_rows > 0) {
     // output data of each row
@@ -116,6 +115,37 @@
   }
     }
   ?>
+
+
+<form action="" method="GET">
+    <label for="effect">Effect Search:</label>
+    <input type="text" name="effect" value="">
+    <input type="submit" value="Search">
+</form>
+<!-- Not working yet -->
+<?php
+  //Search bar code
+  if (isset($_GET['effect']) && !empty($_GET['effect']))
+  {
+    $effect = htmlspecialchars($_GET['effect']);  
+    $sql = "SELECT c.name, mc.image_url, mcet.text
+    FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id
+    JOIN magic_card_effect_text mcet ON mcet.magic_card_id = mc.magic_card_id 
+    where effect LIKE '%$effect%'";    
+    $result = $conn->query($sql);
+  if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        echo "Name: " . $row["name"]. "<br>". "Effect: " . $row["text"]. "<br>". "Image: ". "<img src=". $row["image_url"]. "/>". "<br>";
+    }
+  } else {
+
+    echo "0 results";
+
+  }
+    }
+  ?>
+
 
 <a href="sets.php">Sets</a>
 

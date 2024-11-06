@@ -1,4 +1,9 @@
 <h1>Full information of a card in the Database</h1>
+<form action="" method="GET">
+    <label for="card_id">Card ID</label>
+    <input type="text" name="card_id" value="">
+    <input type="submit" value="Search">
+</form>
 <?php
   $servername = "localhost";
 
@@ -24,9 +29,9 @@
 
   }
 
-    $card_id = 3;
-
-
+  if(isset($_GET['card_id']) && !empty($_GET['card_id']))
+  {
+    $card_id = htmlspecialchars($_GET['card_id']);
     $cards = "SELECT * FROM cards c 
     JOIN magic_cards mc ON c.card_id = mc.card_id WHERE c.card_id = $card_id";
     $cardresult = $conn->query($cards);
@@ -154,6 +159,7 @@ if ($cardresult->num_rows > 0) {
     
         }
     }
+  }
 ?>
 
 <a href="index.php">Home</a>
