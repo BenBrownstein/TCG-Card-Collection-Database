@@ -1,9 +1,4 @@
 <h1>Full information of a card in the Database</h1>
-<form action="" method="GET">
-    <label for="card_id">Card ID</label>
-    <input type="text" name="card_id" value="">
-    <input type="submit" value="Search">
-</form>
 <?php
   $servername = "localhost";
 

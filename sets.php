@@ -44,7 +44,7 @@
               // output data of each row
               while($row = $result->fetch_assoc()) {
                 if ($row["card_set_id"] == $setid){
-                    echo "Name: " . $row["name"]. "<br>";
+                  echo "Name: ". "<a href='card_info.php?card_id=".$row["card_id"]."'>". $row["name"]. "</a> <br>";
                 }
               }      
             }
