@@ -150,7 +150,7 @@ if(isset($_POST['add']))
     $add_to_collection = "INSERT INTO user_collections (user_id, card_id, quantity) VALUES ($user, $card_id  , 1)";
     if ($collection_result->num_rows > 0) {
         while ($row = $collection_result->fetch_assoc()) {
-            if($row['card_id'] = $card_id)
+            if($row['card_id'] == $card_id)
             {
                 $quantity = $row['quantity'] + 1;
                 $add_to_collection = "UPDATE user_collections SET quantity=$quantity WHERE card_id = $card_id";
@@ -163,15 +163,6 @@ if(isset($_POST['add']))
         echo "Card added to your collection!<br>";
     } else {
         echo "Error: " . $conn->error . "<br>";
-    }
-
-    $cards = "SELECT * from user_collections";
-    $cardresult = $conn->query($cards);
-
-    if ($cardresult->num_rows > 0) {
-        while ($row = $cardresult->fetch_assoc()) {
-            echo "Card: " . $row["card_id"] . " User: " . $row["user_id"] . " Quantity: " . $row["quantity"] . "<br>";
-        }
     }
 }
 ?>

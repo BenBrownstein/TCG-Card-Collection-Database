@@ -139,3 +139,5 @@
 
 <br>
 <a href="sets.php">Sets</a>
+<a href="user_collection.php">Collection</a>
+

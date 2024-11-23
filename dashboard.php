@@ -12,4 +12,5 @@ if (!isset($_SESSION['user_id'])) {
     <p>You are logged in.</p>
     <a href="logout.php">Logout</a>
     <br>
+    <br>
 </body>
