@@ -1,29 +1,7 @@
 <h1>These are the Sets that have been added to the Database</h1>
 <?php
-  $servername = "localhost";
-
-  $username   = "root";
-
-  $password   = "";
-
-  $dbname     = "card_collection";
-
-  
-
-  // Create connection object
-
-   $conn = new mysqli($servername, $username, $password, $dbname);
-
-
-
-  // Check connection
-
-  if ($conn->connect_error) {
-
-    die("Connection failed: " . $conn->connect_error);
-
-  }
-
+    include 'connection.php';
+    include 'dashboard.php';
     $sets = "SELECT * from card_sets";
     
 

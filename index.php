@@ -33,6 +33,7 @@
 
   $result = $conn->query($sql);
 
+  include 'dashboard.php';
 
   if ($result->num_rows > 0) {
 

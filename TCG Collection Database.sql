@@ -132,7 +132,7 @@ CREATE TABLE user_collections (
     collection_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     card_id INT,
-    acquired_date DATE,
+    quantity INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (card_id) REFERENCES cards(card_id) ON DELETE CASCADE
 );
@@ -307,49 +307,3 @@ INSERT INTO magic_card_flavor_text (f_text, magic_card_id) VALUES ('“Laughing 
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('Flying', False, 9);
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('You may have Mockingbird enter as a copy of any creature on the battlefield with mana value less than or equal to the amount of mana spent to cast Mockingbird, except it’s a Bird in addition to its other types and it has flying.', False, 9);
 
-
-SELECT * from magic_card_mana_costs;
-Select * from magic_card_effect_text;
-Select * from cards;
-Select * from magic_card_effect_text;
-select * from mana_costs_card_effect_relations;
--- Land Table
-SELECT c.name, mc.rarity, mc.artist, mc.image_url, mcct.card_type, mcst.subtype
-FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id
-JOIN magic_cards_card_types_relations mcctr ON mcctr.magic_card_id = mc.magic_card_id
-JOIN magic_card_card_types mcct ON mcct.magic_card_card_type_id = mcctr.magic_card_card_type_id
-JOIN magic_cards_subtypes_relations mcstr ON mcstr.magic_card_id = mc.magic_card_id
-JOIN magic_card_subtypes mcst ON mcst.magic_card_subtype_id = mcstr.magic_card_subtype_id
-WHERE mcct.card_type = 'Land';
-
--- Creature Table
-SELECT c.name, mc.rarity, mc.artist, mc.image_url, mcct.card_type, mcc.power, mcc.toughness, mcmc.color, mcmc.quantity, mcst.subtype
-FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id
-JOIN magic_cards_card_types_relations mcctr ON mcctr.magic_card_id = mc.magic_card_id
-JOIN magic_card_card_types mcct ON mcct.magic_card_card_type_id = mcctr.magic_card_card_type_id  
-JOIN magic_card_creatures mcc ON mcc.magic_card_id = mc.magic_card_id
-JOIN magic_cards_mana_costs_relations mcmcr ON mcmcr.magic_card_id = mc.magic_card_id
-JOIN magic_card_mana_costs mcmc ON mcmc.magic_card_mana_costs_id = mcmcr.magic_card_mana_costs_id
-JOIN magic_cards_subtypes_relations mcstr ON mcstr.magic_card_id = mc.magic_card_id
-JOIN magic_card_subtypes mcst ON mcst.magic_card_subtype_id = mcstr.magic_card_subtype_id
-WHERE mcct.card_type = 'Creature'; 
-
--- Instant Sorcery Artifact Enchantment Table
-SELECT c.name, mc.rarity, mc.artist, mc.image_url, mcct.card_type, mcmc.color, mcmc.quantity
-FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id
-JOIN magic_cards_card_types_relations mcctr ON mcctr.magic_card_id = mc.magic_card_id
-JOIN magic_card_card_types mcct ON mcct.magic_card_card_type_id = mcctr.magic_card_card_type_id  
-JOIN magic_cards_mana_costs_relations mcmcr ON mcmcr.magic_card_id = mc.magic_card_id
-JOIN magic_card_mana_costs mcmc ON mcmc.magic_card_mana_costs_id = mcmcr.magic_card_mana_costs_id
-WHERE mcct.card_type = 'Instant' or mcct.card_type = 'Sorcery' or mcct.card_type = 'Artifact'  or mcct.card_type = 'Enchantment';
-
--- Enchantment with Subtype Table
-SELECT c.name, mc.rarity, mc.artist, mc.image_url, mcct.card_type, mcmc.color, mcmc.quantity, mcst.subtype
-FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id
-JOIN magic_cards_card_types_relations mcctr ON mcctr.magic_card_id = mc.magic_card_id
-JOIN magic_card_card_types mcct ON mcct.magic_card_card_type_id = mcctr.magic_card_card_type_id  
-JOIN magic_cards_mana_costs_relations mcmcr ON mcmcr.magic_card_id = mc.magic_card_id
-JOIN magic_card_mana_costs mcmc ON mcmc.magic_card_mana_costs_id = mcmcr.magic_card_mana_costs_id
-JOIN magic_cards_subtypes_relations mcstr ON mcstr.magic_card_id = mc.magic_card_id
-JOIN magic_card_subtypes mcst ON mcst.magic_card_subtype_id = mcstr.magic_card_subtype_id
-WHERE mcct.card_type = 'Enchantment'; 
