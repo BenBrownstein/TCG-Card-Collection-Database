@@ -102,25 +102,25 @@ if ($cardresult->num_rows > 0) {
             if ($row["tap"] == 0)
             {
                 $tap = 'False';
-            } else {
-                $tap = 'True';
-            }
+            } 
             $effectId = $row["magic_card_effect_text_id"];
         
         // Display colors and quantities for this effect ID
         if (isset($manaData[$effectId])) {
             foreach ($manaData[$effectId] as $manaRow) {
-                echo $manaRow["color"] . " " . $manaRow["quantity"] . " ";
+                echo $manaRow["quantity"] . " " . $manaRow["color"] . " ";
             }
         }
-        
-        // Display effect text and tap
-        echo "Effect Text: Tap:" . $tap . ". " . $row["text"] . "<br>";
+
+        if ($row["tap"] == 0)
+        {
+        echo "Effect Text:" . $row["text"] . "<br>";
+        } else {
+            echo "Effect Text: Tap. " . $row["text"] . "<br>";
+        }
     }
 }
 
-
-    
     $cards = "SELECT mcft.f_text
     FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id
     JOIN magic_card_flavor_text mcft ON mcft.magic_card_id = mc.magic_card_id WHERE c.card_id = $card_id";
