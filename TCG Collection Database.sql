@@ -137,36 +137,6 @@ CREATE TABLE user_collections (
     FOREIGN KEY (card_id) REFERENCES cards(card_id) ON DELETE CASCADE
 );
 
--- 5. Trades Table
-CREATE TABLE trades (
-    trade_id INT AUTO_INCREMENT PRIMARY KEY,
-    initiator_user_id INT,
-    receiver_user_id INT,
-    status ENUM('pending', 'accepted', 'declined', 'completed') DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (initiator_user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (receiver_user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
--- 6. Trade Items Table
-CREATE TABLE trade_items (
-    trade_item_id INT AUTO_INCREMENT PRIMARY KEY,
-    trade_id INT,
-    user_id INT,
-    card_id INT,
-    quantity INT NOT NULL CHECK (quantity >= 0),
-    is_offered BOOLEAN NOT NULL,
-    FOREIGN KEY (trade_id) REFERENCES trades(trade_id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (card_id) REFERENCES cards(card_id) ON DELETE CASCADE
-);
-
--- Optional Indexes for performance
-CREATE INDEX idx_user_id ON user_collections(user_id);
-CREATE INDEX idx_card_id ON user_collections(card_id);
-CREATE INDEX idx_trade_status ON trades(status);
-
 -- Testing
 INSERT INTO games (name) VALUES ('Magic the Gathering');
 INSERT INTO card_sets (name,release_date, total_cards) VALUES ('Duskmourn: House of Horror', 2024, 417);
@@ -210,9 +180,9 @@ INSERT INTO magic_cards (rarity, artist, image_url, card_id)
 VALUES ('Rare', 'Svetlin Velinov', 'https://cards.scryfall.io/large/front/2/1/2198907e-a13a-42e4-ad79-ac7efba4e610.jpg?1726285269', 4);
 INSERT INTO magic_card_card_types (card_type) VALUES ('Sorcery');
 INSERT INTO magic_cards_card_types_relations (magic_card_id, magic_card_card_type_id) VALUES (4, 4);
-INSERT INTO magic_card_mana_costs (color, quantity) VALUES ('Generic', 2);
+INSERT INTO magic_card_mana_costs (color, quantity) VALUES ('X', 2);
 INSERT INTO magic_card_mana_costs (color, quantity) VALUES ('White', 2);
-INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (4, 5);
+INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (4, 1);
 INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (4, 6);
 INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (4, 2);
 INSERT INTO card_sets (name,release_date, total_cards) VALUES ('Core Set 2019', 2018, 314);
@@ -220,7 +190,7 @@ INSERT INTO cards (name, card_set_id) VALUES ('Millstone', 5);
 INSERT INTO magic_cards (rarity, artist, image_url, card_id)
 VALUES ('Uncommon', 'Yeong-Hao Han', 'https://cards.scryfall.io/large/front/c/2/c2051fd0-99cf-4e11-a625-8294e6767e5b.jpg?1562304298', 5);
 INSERT INTO magic_cards_card_types_relations (magic_card_id, magic_card_card_type_id) VALUES (5, 3);
-INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (5, 5);
+INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (5, 1);
 INSERT INTO card_sets (name,release_date, total_cards) VALUES ('Jumpstart', 2020, 497);
 INSERT INTO cards (name, card_set_id) VALUES ('Feral Invocation', 6);
 INSERT INTO magic_cards (rarity, artist, image_url, card_id)
@@ -228,7 +198,7 @@ VALUES ('Common', 'Mathias Kollros', 'https://cards.scryfall.io/large/front/1/9/
 INSERT INTO magic_card_card_types (card_type) VALUES ('Enchantment');
 INSERT INTO magic_cards_card_types_relations (magic_card_id, magic_card_card_type_id) VALUES (6, 5);
 INSERT INTO magic_card_mana_costs (color, quantity) VALUES ('Green', 1);
-INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (6, 5);
+INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (6, 1);
 INSERT INTO magic_cards_mana_costs_relations (magic_card_id, magic_card_mana_costs_id) VALUES (6, 7);
 INSERT INTO magic_card_subtypes (subtype) VALUES ('Aura');
 INSERT INTO magic_cards_subtypes_relations (magic_card_id, magic_card_subtype_id) VALUES (6, 4);
@@ -303,7 +273,6 @@ INSERT INTO magic_card_subtypes (subtype) VALUES ('Bird');
 INSERT INTO magic_card_subtypes (subtype) VALUES ('Bard');
 INSERT INTO magic_cards_subtypes_relations (magic_card_id, magic_card_subtype_id) VALUES (9, 9);
 INSERT INTO magic_cards_subtypes_relations (magic_card_id, magic_card_subtype_id) VALUES (9, 10);
-INSERT INTO magic_card_flavor_text (f_text, magic_card_id) VALUES ('“Laughing at you? No, no, I’m laughing as you!”', 9);
+INSERT INTO magic_card_flavor_text (f_text, magic_card_id) VALUES ("“Laughing at you? No, no, I’m laughing as you!”", 9);
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('Flying', False, 9);
 INSERT INTO magic_card_effect_text (text, tap, magic_card_id) VALUES ('You may have Mockingbird enter as a copy of any creature on the battlefield with mana value less than or equal to the amount of mana spent to cast Mockingbird, except it’s a Bird in addition to its other types and it has flying.', False, 9);
-
