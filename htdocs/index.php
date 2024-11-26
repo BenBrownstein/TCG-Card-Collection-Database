@@ -64,7 +64,7 @@
         switch ($selectedSearchType) {
             // If name is selected do a call based off what will be shown for the name search based off $searchQuery
             case 'name':
-                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, mcct.card_type
+                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, mcct.card_type, mc.image_url
                 FROM card_sets cs
                 JOIN cards c ON c.card_set_id = cs.card_set_id
                 JOIN magic_cards mc ON c.card_id = mc.card_id
@@ -75,7 +75,7 @@
 
             case 'subtype':
                 // If name is selected do a call based off what will be shown for the subtype search based off $searchQuery
-                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, mcct.card_type, mcst.subtype
+                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, mcct.card_type, mcst.subtype, mc.image_url
                 FROM card_sets cs
                 JOIN cards c ON c.card_set_id = cs.card_set_id
                 JOIN magic_cards mc ON c.card_id = mc.card_id
@@ -88,7 +88,7 @@
 
             case 'effect':
                 // If name is selected do a call based off what will be shown for the effect search based off $searchQuery
-                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, mcct.card_type, mcet.text
+                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, mcct.card_type, mcet.text, mc.image_url
                 FROM card_sets cs
                 JOIN cards c ON c.card_set_id = cs.card_set_id
                 JOIN magic_cards mc ON c.card_id = mc.card_id
@@ -100,7 +100,7 @@
 
             case 'set':
                 // If name is selected do a call based off what will be shown for the set search based off $searchQuery
-                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, mcct.card_type
+                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, mcct.card_type, mc.image_url
                 FROM card_sets cs
                 JOIN cards c ON c.card_set_id = cs.card_set_id
                 JOIN magic_cards mc ON c.card_id = mc.card_id
@@ -125,7 +125,7 @@
                     // Displays the subtype of the cards that meet the criteria if text is selected
                     echo ", Effect: " . $row["text"];
                 }
-                echo "<br>";
+                echo "<br>"."<img src=". $row["image_url"]. " width = '150 px'/>"."<br><br>";
             }
         } else {
             //Nothing matched the query based on criteria
@@ -165,7 +165,7 @@
         switch ($selectedSearchTypeYGO) {
             // If name is selected do a call based off what will be shown for the name search based off $searchQueryYGO
             case 'name':
-                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, yc.card_type
+                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, yc.card_type, yc.image_url
                 FROM card_sets cs
                 JOIN cards c ON c.card_set_id = cs.card_set_id
                 JOIN ygo_cards yc ON c.card_id = yc.card_id
@@ -174,7 +174,7 @@
 
             case 'subtype':
                 // If name is selected do a call based off what will be shown for the subtype search based off $searchQueryYGO
-                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, yc.card_type, ycst.subtype
+                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, yc.card_type, ycst.subtype, yc.image_url
                 FROM card_sets cs
                 JOIN cards c ON c.card_set_id = cs.card_set_id
                 JOIN ygo_cards yc ON c.card_id = yc.card_id
@@ -185,7 +185,7 @@
 
             case 'effect':
                 // If name is selected do a call based off what will be shown for the effect search based off $searchQueryYGO
-                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, yc.card_type, ycet.text
+                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, yc.card_type, ycet.text, yc.image_url
                 FROM card_sets cs
                 JOIN cards c ON c.card_set_id = cs.card_set_id
                 JOIN ygo_cards yc ON c.card_id = yc.card_id
@@ -195,7 +195,7 @@
 
             case 'set':
                 // If name is selected do a call based off what will be shown for the set search based off $searchQueryYGO
-                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, yc.card_type
+                $sql = "SELECT cs.name AS card_set_name, c.card_id, c.name, yc.card_type, yc.image_url
                 FROM card_sets cs
                 JOIN cards c ON c.card_set_id = cs.card_set_id
                 JOIN ygo_cards yc ON c.card_id = yc.card_id
@@ -218,7 +218,7 @@
                     // Displays the subtype of the cards that meet the criteria if text is selected
                     echo ", Effect: " . $row["text"];
                 }
-                echo "<br>";
+                echo "<br>"."<img src=". $row["image_url"]. " width = '150 px'/>"."<br><br>";
             }
         } else {
             //Nothing matched the query based on criteria

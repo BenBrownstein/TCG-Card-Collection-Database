@@ -28,7 +28,7 @@
         JOIN magic_cards mc ON c.card_id = mc.card_id WHERE c.card_id = $card_id";
         $cardresult = $conn->query($cards);
         $fetchedcard = $cardresult->fetch_assoc();
-        echo "Name: " . $fetchedcard["name"]. "<br>". "Rarity: " . $fetchedcard["rarity"]. "<br>". "Artist: " . $fetchedcard["artist"]. "<br>"."Image: ". "<img src=". $fetchedcard["image_url"]. "/>". "<br>";
+        echo "Name: " . $fetchedcard["name"]. "<br>". "<img src=". $fetchedcard["image_url"]. " width = '300 px'/>". "<br>"."Rarity: " . $fetchedcard["rarity"]. "<br>". "Artist: " . $fetchedcard["artist"]. "<br>";
         
         //Shows Set name for selected card
         $cards = "SELECT cs.name from card_sets cs 

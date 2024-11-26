@@ -28,7 +28,7 @@
         JOIN ygo_cards yc ON c.card_id = yc.card_id WHERE c.card_id = $card_id";
         $cardresult = $conn->query($cards);
         $fetchedcard = $cardresult->fetch_assoc();
-        echo "Name: " . $fetchedcard["name"]. "<br>". "Card Type: ". $fetchedcard["card_type"]. "<br>"."Rarity: " . $fetchedcard["rarity"]. "<br>"."Image: ". "<img src=". $fetchedcard["image_url"]. ">". "<br>";
+        echo "Name: " . $fetchedcard["name"].  "<br>"."<img src=". $fetchedcard["image_url"]. ">"."<br>". "Card Type: ". $fetchedcard["card_type"]. "<br>"."Rarity: " . $fetchedcard["rarity"]. "<br>";
     
         //Gets Card Type for selected card id
         $cards = "SELECT cs.name from card_sets cs 
