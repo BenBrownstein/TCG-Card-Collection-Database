@@ -26,7 +26,7 @@
                 // Login successful if user id and user name are correct
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['username'] = $user['username'];
-                header("Location: index.php"); // Redirect to dashboard
+                header("Location: index.php"); // Redirect to homepage
                 exit();
             } else {
                 //Errors if wrong password

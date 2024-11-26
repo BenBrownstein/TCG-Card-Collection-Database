@@ -72,7 +72,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
         //Gets the card id
         $card_id = $_POST['card_id'];
-        //Removes the card from the logged in users collection
+        //Removes the card from the logged in user's collection
         $update_query = "DELETE FROM user_collections WHERE card_id = $card_id AND user_id = $user";
         //Loads query and refreshes the page
         if ($conn->query($update_query)) {

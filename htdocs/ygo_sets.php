@@ -16,7 +16,7 @@
     //Loops the following code for each set
     while($row = $setresult->fetch_assoc()) {
       //Displays the name of the set then a button which will display the cards in the set
-      echo "Name: " . $row["name"]. "<form method='post'> <input type='submit' name='". $row["card_set_id"] ."' value='Display Cards in Set'/></form>" ."<br>";
+      echo "<br>Name: " . $row["name"]. "<form method='post'> <input type='submit' name='". $row["card_set_id"] ."' value='Display Cards in Set'/></form>" ."<br>";
       
       //If the button is pressed display all cards in the database that are in that set
       if(isset($_POST[$row["card_set_id"]])) {
@@ -41,5 +41,6 @@
     echo "No results";
   }
 ?>
+<br>
 <!-- Links back to home page -->
 <a href="index.php">Home</a>

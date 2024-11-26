@@ -231,4 +231,5 @@
 <a href="sets.php">Magic Sets</a>
 <a href="ygo_sets.php">Yu-Gi-Oh Sets</a>
 <a href="user_collection.php">Collection</a>
+<a href="user_page.php">User Page</a>
 
