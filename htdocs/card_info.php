@@ -1,16 +1,25 @@
+<head>
+<link rel="stylesheet" href="style.css">
+
+</head>
+
 <h1>Full information of a card in the Database</h1>
+
 <?php
+    //Connects to database
     include 'connection.php';
+    //Shows user info and make sure they are logged in
     include 'dashboard.php';
 
-  if(isset($_GET['card_id']) && !empty($_GET['card_id']))
-  {
-    $card_id = htmlspecialchars($_GET['card_id']);
-    $cards = "SELECT * FROM cards c 
-    JOIN magic_cards mc ON c.card_id = mc.card_id WHERE c.card_id = $card_id";
-    $cardresult = $conn->query($cards);
-    $fetchedcard = $cardresult->fetch_assoc();
-    echo "Name: " . $fetchedcard["name"]. "<br>". "Rarity: " . $fetchedcard["rarity"]. "<br>". "Artist: " . $fetchedcard["artist"]. "<br>"."Image: ". "<img src=". $fetchedcard["image_url"]. "/>". "<br>";
+    // If there is a card id set that is not null
+    if(isset($_GET['card_id']) && !empty($_GET['card_id']))
+    {
+        $card_id = htmlspecialchars($_GET['card_id']);
+        $cards = "SELECT * FROM cards c 
+        JOIN magic_cards mc ON c.card_id = mc.card_id WHERE c.card_id = $card_id";
+        $cardresult = $conn->query($cards);
+        $fetchedcard = $cardresult->fetch_assoc();
+        echo "Name: " . $fetchedcard["name"]. "<br>". "Rarity: " . $fetchedcard["rarity"]. "<br>". "Artist: " . $fetchedcard["artist"]. "<br>"."Image: ". "<img src=". $fetchedcard["image_url"]. "/>". "<br>";
     
     $cards = "SELECT cs.name from card_sets cs 
     JOIN cards c ON c.card_set_id = cs.card_set_id WHERE c.card_id = $card_id";
@@ -27,12 +36,13 @@
     if ($cardresult->num_rows > 0) {
 
         // output data of each row
-    
+        echo "Card Type: ";
         while($row = $cardresult->fetch_assoc()) {
     
-          echo "Card Type: " . $row["card_type"]. "<br>";
+          echo $row["card_type"]. " ";
     
         }
+        echo "<br>";
     }
     $cards = "SELECT mcst.subtype
     FROM cards c JOIN magic_cards mc ON c.card_id = mc.card_id
@@ -43,12 +53,13 @@
      if ($cardresult->num_rows > 0) {
  
          // output data of each row
-     
+         echo "Subtype: ";
          while($row = $cardresult->fetch_assoc()) {
      
-           echo "Sub Type: " . $row["subtype"]. "<br>";
+           echo $row["subtype"]. " ";
      
          }
+         echo "<br>";
      }
 
     $cards = "SELECT mcmc.color, mcmc.quantity
@@ -57,12 +68,14 @@
     JOIN magic_card_mana_costs mcmc ON mcmc.magic_card_mana_costs_id = mcmcr.magic_card_mana_costs_id WHERE c.card_id = $card_id";
     $cardresult = $conn->query($cards);
     if ($cardresult->num_rows > 0) {
+        echo "Mana Cost: ";
 
         while($row = $cardresult->fetch_assoc()) {
     
-          echo "Mana Color: " . $row["color"]. " ". "Mana Quantity: " . $row["quantity"]. "<br>";
-    
+          echo $row["quantity"]. "-" . $row["color"]. " ";
         }
+        echo "<br>";
+
     }
 
     $cards = "SELECT mcc.power, mcc.toughness FROM cards c 
@@ -108,13 +121,13 @@ if ($cardresult->num_rows > 0) {
         // Display colors and quantities for this effect ID
         if (isset($manaData[$effectId])) {
             foreach ($manaData[$effectId] as $manaRow) {
-                echo $manaRow["quantity"] . " " . $manaRow["color"] . " ";
+                echo $manaRow["quantity"] . "-" . $manaRow["color"] . " ";
             }
         }
 
         if ($row["tap"] == 0)
         {
-        echo "Effect Text:" . $row["text"] . "<br>";
+        echo "Effect Text: " . $row["text"] . "<br>";
         } else {
             echo "Effect Text: Tap. " . $row["text"] . "<br>";
         }
