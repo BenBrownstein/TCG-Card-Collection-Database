@@ -1,4 +1,4 @@
-<h1>Full information of a card in the Database</h1>
+<h1>Full information of a magic card in the Database</h1>
 
 <?php
     //Connects to database

@@ -1,12 +1,12 @@
-<h1>These are the Magic the Gathering Sets that have been added to the Database</h1>
+<h1>These are the Yu-Gi-Oh that have been added to the Database</h1>
 <?php
   //Connects to database
   include 'connection.php';
   //Shows user info and make sure they are logged in  
   include 'dashboard.php';
 
-  //Selects everything from sets where the game is set to Magic the Gathering
-  $sets = "SELECT * from card_sets WHERE game_id = 1";
+  //Selects everything from sets where the game is set to Yu-Gi-Oh
+  $sets = "SELECT * from card_sets WHERE game_id = 2";
   $setresult = $conn->query($sets);   
 
   //Checks to make sure there are sets for that game
@@ -30,7 +30,7 @@
           while($row = $result->fetch_assoc()) {
             //If the set id of a card is equal to the pushed buttons set id it displays the card name as a link to its card info page
             if ($row["card_set_id"] == $setid){
-                echo "Name: ". "<a href='card_info.php?card_id=".$row["card_id"]."'>". $row["name"]. "</a> <br>";
+                echo "Name: ". "<a href='ygo_card_info.php?card_id=".$row["card_id"]."'>". $row["name"]. "</a> <br>";
             }
           }      
         }
