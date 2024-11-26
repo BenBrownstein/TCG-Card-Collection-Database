@@ -44,7 +44,7 @@
 ?>
 
 <body>
-    <h1>Login</h1>
+    <h1>Login to Trading Card Game Card Database</h1>
     <!-- Errors if the variable error is not empty -->
     <?php if (!empty($error)) { echo "<p style='color:red;'>$error</p>"; } ?>
     <!-- Uses POST so it does not show up in searchbar/part of url -->
